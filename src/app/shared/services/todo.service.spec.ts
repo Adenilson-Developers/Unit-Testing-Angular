@@ -1,35 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 /* tslint:disable:no-unused-variable */
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed, async, inject } from '@angular/core/testing';
-import { of } from 'rxjs';
 import { TodoService } from './todo.service';
 
-describe('TodoService', () => {
+fdescribe('TodoService', () => {
   let service: TodoService;
-  const httpStub = {
-    get: (_params: any) => of([
-      {
-        "userId": 1,
-        "id": 1,
-        "title": "delectus out autem",
-        "completed": false
-      }
-    ])
-  }
+  let http: HttpClient;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: HttpClient,
-          useValue: httpStub
-        }
+      imports: [
+        HttpClientTestingModule
       ]
     });
     service = TestBed.inject(TodoService);
+    http = TestBed.inject(HttpClient);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('Deve chamar o metodo GET com o endpoint correto', ()=>{
+    const spy = spyOn(http, 'get').and.callThrough();
+    service.getTodos();
+    expect(spy).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/todos');
+  })
 });
