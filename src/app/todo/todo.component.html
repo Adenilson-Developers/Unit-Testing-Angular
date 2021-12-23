@@ -1,0 +1,6 @@
+<article 
+  *ngFor="todo of todos"
+  class="p-4 block mb-2 border rounded-md shadow">
+  <input [checked]="toto.completed" type="checkbox" name="feito"/>
+  <span id="title" class="text-lg ml-2">{{todo.title}}</span>
+</article>
